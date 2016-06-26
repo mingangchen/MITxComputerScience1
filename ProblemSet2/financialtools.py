@@ -44,3 +44,27 @@ def payDebtOff(balance,annualInterestRate):
         else:
             break
     return fixed
+
+
+'''
+PROBLEM 3: USING BISECTION SEARCH TO MAKE THE PROGRAM FASTER
+'''
+
+def bisectionPayDebtOff(balance,annualInterestRate):
+    lower = balance / 12.0
+    upper = balance * (1 + annualInterestRate / 12.0) ** 12 / 12
+    fixed = (lower + upper) / 2.0
+
+    while True:
+        newbalance = balance
+        for i in range(1, 13):
+            newbalance -= fixed
+            newbalance += (annualInterestRate/12.0) * newbalance
+        if newbalance > 0:
+            lower = fixed
+        elif newbalance <= 0 and newbalance >= -0.01:
+            break
+        else:
+            upper = fixed
+        fixed = (lower + upper) / 2.0
+    return fixed
